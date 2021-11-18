@@ -1,10 +1,16 @@
+import tensorflow as tf
 
 from keras.layers import Input, Dense, Embedding, Conv2D, MaxPool2D, Conv1D
 from keras.layers import Reshape, Flatten, Dropout, Concatenate
 from keras.callbacks import ModelCheckpoint
+import keras
 from keras.layers import AveragePooling2D, MaxPooling2D, ZeroPadding2D, MaxPooling1D
-from keras.optimizers import Adam
+#from tensorflow.python.keras.optimizers import adam_v2
+#from keras.optimizers.optimizer_v2.
+from tensorflow.keras import optimizers
 from keras.models import Model, model_from_json
+
+
 from sklearn.model_selection import train_test_split
 import os
 import numpy as np
@@ -52,7 +58,8 @@ output = Dense(units=2, activation='softmax')(dropout)
 model = Model(inputs=inputs, outputs=output)
 
 checkpoint = ModelCheckpoint('weights.{epoch:03d}-{val_acc:.4f}.hdf5', monitor='val_acc', verbose=1, save_best_only=True, mode='auto')
-adam = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+adam = tf.keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+#adam = adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Model summary
